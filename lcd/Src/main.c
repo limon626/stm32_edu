@@ -39,7 +39,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f7xx_hal.h"
-#include "ltdc.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -115,7 +114,7 @@ int main(void)
   MX_RNG_Init();
 
   /* Initialize interrupts */
-  //MX_NVIC_Init();
+  MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 
 
@@ -348,12 +347,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = GPIO_PIN_12;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PI11 */
-  GPIO_InitStruct.Pin = GPIO_PIN_11;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
 }
