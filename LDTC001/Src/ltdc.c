@@ -3,6 +3,10 @@
 extern volatile uint32_t RGB565_480x272[65280];
 extern LTDC_HandleTypeDef hltdc;
 //----------------------------------------
+LCD_DrawPropTypeDef lcdprop;
+const uint8_t *ch;
+
+//----------------------------------------
 void TFT_FillScreen(uint32_t color)
 {
 	uint32_t i;
@@ -65,5 +69,42 @@ void TFT_DrawLine(uint16_t x1, uint16_t y1,
 			err=dx;
 		}
 	}
+
+		void TFT_FontsIni(void)
+	{
+	  lcdprop.BackColor=LCD_COLOR_BLACK;
+	  lcdprop.TextColor=LCD_COLOR_GREEN;
+	  lcdprop.pFont=&Font16;
+	}
+//----------------------------------------
+
+void TFT_SetFont(sFONT *fonts)
+{
+ lcdprop.pFont=fonts;
 }
-//------------------------------------
+//----------------------------------------
+void TFT_SetTextColor(uint32_t color)
+{
+ lcdprop.TextColor=color;
+}
+//----------------------------------------
+void TFT_SetBackColor(uint32_t color)
+{
+ lcdprop.BackColor=color;
+}
+//----------------------------------------
+void TFT_DrawChar(uint16_t x, uint16_t y, const uint8_t c)
+{
+ uint32_t i = 0, j = 0;
+ uint16_t height, width;
+ uint8_t offset;
+ uint8_t *pchar;
+ uint32_t line;
+
+ ch = &lcdprop.pFont->table[(c-' ') * lcdprop.pFont->Height * ((lcdprop.pFont->Width + 7) / 8)];
+ height = lcdprop.pFont->Height;
+ width = lcdprop.pFont->Width;
+ offset = 8 * ((width + 7)/8) - width;
+}
+
+}
