@@ -123,12 +123,21 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+	  TFT_FillScreen(LCD_COLOR_BLACK);
+	  TFT_SetFont(&Font8);
+	  TFT_SetTextColor(LCD_COLOR_YELLOW);
+	  TFT_SetBackColor(LCD_COLOR_BLUE);
+	  TFT_DrawChar(10, 10, (uint8_t)'S');
+	  //TFT_DrawChar(27, 10, (uint8_t)'t');
+	  //TFT_DrawChar(44, 10, (uint8_t)'m');
+	  //TFT_DrawChar(61, 10, (uint8_t)'3');
+//	  TFT_DrawChar(78, 10, (uint8_t)'2');
 //		for(i=0;i<100;i++)
 //		{
 //			TFT_FillScreen((uint16_t)HAL_RNG_GetRandomNumber(&hrng));
 //			HAL_Delay(100);
 //		}
-		TFT_FillScreen(LCD_COLOR_BLUE);
+		//TFT_FillScreen(LCD_COLOR_BLUE);
 		HAL_Delay(1000);
 //		for(i=0;i<1000;i++)
 //		{
@@ -139,7 +148,7 @@ int main(void)
 //												(uint16_t)HAL_RNG_GetRandomNumber(&hrng));
 //			HAL_Delay(10);
 //		}
-		TFT_FillScreen(LCD_COLOR_DARKYELLOW);
+		//TFT_FillScreen(LCD_COLOR_DARKYELLOW);
 		HAL_Delay(1000);
 //		for(i=0;i<10000;i++)
 //		{
@@ -164,7 +173,7 @@ int main(void)
 //												(uint16_t)HAL_RNG_GetRandomNumber(&hrng));
 //			HAL_Delay(10);
 //		}
-		TFT_FillScreen(LCD_COLOR_LIGHTRED);
+		//TFT_FillScreen(LCD_COLOR_LIGHTRED);
 		HAL_Delay(1000);
 	}
   /* USER CODE END 3 */

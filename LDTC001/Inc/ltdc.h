@@ -62,4 +62,5 @@ void TFT_DrawPixel(uint16_t x1, uint16_t y1, uint32_t color);
 void TFT_DrawLine(uint16_t x1, uint16_t y1,
 											uint16_t x2, uint16_t y2, uint16_t color);
 //------------------------------------------
+void TFT_DrawChar(uint16_t x, uint16_t y, const uint8_t c);
 
