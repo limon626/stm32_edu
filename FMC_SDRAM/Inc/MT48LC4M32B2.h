@@ -2,6 +2,8 @@
 #define __MT48LC4M32B2_H
 //————————————————
 #include "stm32f7xx_hal.h"
+#include "string.h"
+#include "stdint.h"
 //————————————————
 #define SDRAM_TIMEOUT     ((uint32_t)0xFFFF)
 #define SDRAM_MODEREG_BURST_LENGTH_1             ((uint16_t)0x0000)
@@ -15,5 +17,8 @@
 #define SDRAM_MODEREG_OPERATING_MODE_STANDARD    ((uint16_t)0x0000)
 #define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((uint16_t)0x0000)
 #define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((uint16_t)0x0200)
+#define SDRAM_BANK_ADDR						     ((uint32_t)0xC0000000)
+//————————————————
+void MT48LC4M32B2_init(SDRAM_HandleTypeDef *hsdram);
 //————————————————
 #endif /* __MT48LC4M32B2_H */

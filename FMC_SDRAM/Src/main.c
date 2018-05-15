@@ -41,7 +41,8 @@
 #include "stm32f7xx_hal.h"
 
 /* USER CODE BEGIN Includes */
-#include "MT48LC4M32B2.c"
+#include "MT48LC4M32B2.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -52,7 +53,11 @@ SDRAM_HandleTypeDef hsdram1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+#define BUFFER_SIZE ((uint32_t)0x0100)
+#define WRITE_READ_ADDR ((uint32_t)0x0800)
+uint32_t aTxBuffer[BUFFER_SIZE];
+uint32_t aRxBuffer[BUFFER_SIZE];
+uint32_t uwIndex = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,7 +73,15 @@ static void MX_FMC_Init(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
+static void Fill_Buffer(uint32_t *pBuffer, uint32_t uwBufferLenght, uint32_t uwOffset)
+{
+ uint32_t tmpIndex = 0;
+ /* Put in global buffer different values */
+ for (tmpIndex = 0; tmpIndex < uwBufferLenght; tmpIndex++ )
+ {
+   pBuffer[tmpIndex] = tmpIndex + uwOffset;
+ }
+}
 /* USER CODE END 0 */
 
 /**
@@ -79,7 +92,7 @@ static void MX_FMC_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+char str1[20] = {0};
   /* USER CODE END 1 */
 
   /* MPU Configuration----------------------------------------------------------*/
@@ -112,7 +125,25 @@ int main(void)
   MX_USART1_UART_Init();
   MX_FMC_Init();
   /* USER CODE BEGIN 2 */
-
+  MT48LC4M32B2_init(&hsdram1);
+  Fill_Buffer(aTxBuffer,BUFFER_SIZE, 0x37BA0f68);
+  //запишем данные из буфера в память SDRAM с адреса 0xC0000800
+  for (uwIndex = 0; uwIndex < BUFFER_SIZE; uwIndex++)
+   {
+     *(__IO uint32_t*) (SDRAM_BANK_ADDR + WRITE_READ_ADDR + 4*uwIndex) = aTxBuffer[uwIndex];
+   }
+  //прочитаем в другой буфер данные из памяти SDRAM с адреса 0xC0000800
+  for (uwIndex = 0; uwIndex < BUFFER_SIZE; uwIndex++)
+    {
+      aRxBuffer[uwIndex] = *(__IO uint32_t*) (SDRAM_BANK_ADDR + WRITE_READ_ADDR + 4*uwIndex);
+    }
+  //отправим байты в USART
+    for (uwIndex = 0; uwIndex < BUFFER_SIZE; uwIndex++) {
+    	sprintf(str1, "%03ld: 0x%08lX\r\n", (unsigned long) uwIndex, (unsigned long) aRxBuffer[uwIndex]);
+    	HAL_UART_Transmit(&huart1,(uint8_t *) str1, strlen(str1), 0x1000);
+    	HAL_Delay(100);
+    	HAL_GPIO_WritePin(GPIOI,GPIO_PIN_1,GPIO_PIN_SET);
+    }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -121,10 +152,12 @@ int main(void)
   {
 
   /* USER CODE END WHILE */
-HAL_GPIO_WritePin(GPIOI,GPIO_PIN_1,GPIO_PIN_SET);
-HAL_Delay(500);
-HAL_GPIO_WritePin(GPIOI,GPIO_PIN_1,GPIO_PIN_RESET);
-HAL_Delay(500);
+	  sprintf(str1, "OK!\n");
+//HAL_UART_Transmit(&huart1,(uint8_t *) str1, strlen(str1), 0x1000);
+//HAL_GPIO_WritePin(GPIOI,GPIO_PIN_1,GPIO_PIN_SET);
+//HAL_Delay(500);
+//HAL_GPIO_WritePin(GPIOI,GPIO_PIN_1,GPIO_PIN_RESET);
+//HAL_Delay(500);
   /* USER CODE BEGIN 3 */
 
   }
