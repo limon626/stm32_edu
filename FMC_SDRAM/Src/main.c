@@ -152,12 +152,7 @@ char str1[20] = {0};
   {
 
   /* USER CODE END WHILE */
-	  sprintf(str1, "OK!\n");
-//HAL_UART_Transmit(&huart1,(uint8_t *) str1, strlen(str1), 0x1000);
-//HAL_GPIO_WritePin(GPIOI,GPIO_PIN_1,GPIO_PIN_SET);
-//HAL_Delay(500);
-//HAL_GPIO_WritePin(GPIOI,GPIO_PIN_1,GPIO_PIN_RESET);
-//HAL_Delay(500);
+
   /* USER CODE BEGIN 3 */
 
   }
